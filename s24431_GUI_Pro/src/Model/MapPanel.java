@@ -9,7 +9,7 @@ public class MapPanel extends JPanel {
     private ArrayList<CountryModel> countries = new ArrayList<>();
 
     public MapPanel() {
-        ImageIcon icon = new ImageIcon("src/png/wordlMap.png");
+        ImageIcon icon = new ImageIcon("s24431_GUI_Pro/src/png/wordlMap.png");
         mapImage = icon.getImage();
 
         countries.add(new CountryModel("Chiny",2000000,true,1400, 550));
