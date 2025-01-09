@@ -33,7 +33,7 @@ public class LeaderBoardModel implements Serializable{
 
     public static void loadFromFile(){
         extension.clear();
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("LeaderBoard.ser"))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("s24431_GUI_Pro/LeaderBoard.ser"))) {
             while (true) {
                 try {
                     LeaderBoardModel lb = (LeaderBoardModel) ois.readObject();

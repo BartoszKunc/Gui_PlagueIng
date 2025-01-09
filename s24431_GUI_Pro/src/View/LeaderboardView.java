@@ -48,9 +48,10 @@ public class LeaderboardView extends JFrame {
 
         //wyswietlnie danych
         leaderboardList.setModel(dlm);
+        JScrollPane jScrollPane = new JScrollPane(leaderboardList);
         backButton = new JButton("Back");
 
-        this.add(leaderboardList, BorderLayout.CENTER);
+        this.add(jScrollPane, BorderLayout.CENTER);
         this.add(backButton, BorderLayout.SOUTH);
 
     }

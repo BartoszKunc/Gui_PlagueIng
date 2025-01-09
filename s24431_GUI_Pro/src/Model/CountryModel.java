@@ -1,12 +1,9 @@
 package Model;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 public class CountryModel {
-    private static Set<CountryModel> extensionCountryies;
+    private static List<CountryModel> extensionCountryies = new ArrayList<CountryModel>();;
     private String name;
     private int population;
     private int infected;
@@ -46,7 +43,6 @@ public class CountryModel {
         this.x = x;
         this.y = y;
 
-        extensionCountryies = new HashSet<CountryModel>();
         extensionCountryies.add(this);
     }
 
@@ -151,7 +147,7 @@ public class CountryModel {
         this.y = y;
     }
 
-    public static Set<CountryModel> getExtensionCountryies() {
+    public static List<CountryModel> getExtensionCountryies() {
         return extensionCountryies;
     }
 
