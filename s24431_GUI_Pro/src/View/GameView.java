@@ -2,6 +2,8 @@ package View;
 
 import Controller.MainMenuController;
 import Model.MapPanel;
+import Model.TransportConnection;
+import Model.TransportModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -81,6 +83,7 @@ public class GameView extends JFrame {
 
         // ============ Skrót klawiszowy Ctrl+Shift+Q ============
         addShortCutListener();
+
     }
 
     /**

@@ -1,9 +1,6 @@
 import Controller.GameController;
 import Controller.MainMenuController;
-import Model.DifficultyEnum;
-import Model.TimeManager;
-import Model.Virus;
-import Model.VirusSettings;
+import Model.*;
 import View.GameView;
 import View.MainMenuView;
 
@@ -15,6 +12,8 @@ public class Main {
 
         SwingUtilities.invokeLater(()-> new MainMenuController(new MainMenuView()));
         //MainMenuController mmc = new MainMenuController(new MainMenuView());
+
+
 
 
         
