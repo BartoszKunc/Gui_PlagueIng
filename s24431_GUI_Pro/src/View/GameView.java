@@ -36,11 +36,12 @@ public class GameView extends JFrame {
      * Metoda inicjalizująca okno (JFrame).
      */
     private void init() {
-        setTitle("KoronaVirus - Game");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(screenDim);
-        setLayout(new BorderLayout());
-        setVisible(true);
+        this.setTitle("KoronaVirus - Game");
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setSize(screenDim);
+        this.setLayout(new BorderLayout());
+        this.setVisible(true);
+        this.setLocationRelativeTo(null);
     }
 
     /**

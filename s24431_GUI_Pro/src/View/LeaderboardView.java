@@ -22,7 +22,7 @@ public class LeaderboardView extends JFrame {
     public void init(){
         this.setTitle("KoronaVirus - Leaderboard");
         this.setSize(500,500);
-        this.setLocation((int)screenSize.width/4,(int)screenSize.height/4);
+        this.setLocationRelativeTo(null);
         this.setVisible(true);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setLayout(new BorderLayout());

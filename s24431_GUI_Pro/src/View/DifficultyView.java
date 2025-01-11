@@ -14,7 +14,7 @@ public class DifficultyView extends JFrame {
     private JButton mediumButton;
     private JButton hardButton;
     private JButton backButton;
-    private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
 
 
     public DifficultyView() {
@@ -27,7 +27,7 @@ public class DifficultyView extends JFrame {
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setLayout(new GridLayout(4,1));
         this.setSize(500,500);
-        this.setLocation((int)screenSize.getWidth()/4,(int)screenSize.getHeight()/4);
+        this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
 

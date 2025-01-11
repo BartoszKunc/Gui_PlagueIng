@@ -1,9 +1,12 @@
 package Model;
 
 public class GameState {
+    private CountryModel countryModel;
     private static Virus virus;
+    private TimeManager timeManager;
 
-    public GameState(Virus virus) {
+
+    public GameState() {
         this.virus = virus;
     }
 

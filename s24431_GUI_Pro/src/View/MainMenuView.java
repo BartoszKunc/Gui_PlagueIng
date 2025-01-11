@@ -12,7 +12,6 @@ public class MainMenuView extends JFrame {
     private JButton startButton;
     private JButton exitButton;
     private JButton leaderBoardButton;
-    private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
     public MainMenuView(){
         init();
@@ -25,7 +24,7 @@ public class MainMenuView extends JFrame {
         this.setSize(500,500);
         this.setVisible(true);
         this.setLayout(new GridLayout(3,1));
-        this.setLocation((int)screenSize.getWidth()/4,(int)screenSize.getHeight()/4);
+        this.setLocationRelativeTo(null);
     }
 
     public void initComponents(){
