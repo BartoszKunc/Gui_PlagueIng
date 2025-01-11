@@ -15,13 +15,15 @@ public class LeaderBoardModel implements Serializable{
         this.name = name;
         this.score = score;
 
+        loadFromFile();
         extension.add(this);
     }
 
 
     public static void saveToFile(){
+
         try {
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("LeaderBoard.ser"));
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("s24431_GUI_Pro/LeaderBoard.ser"));
             for (LeaderBoardModel m : extension) {
                 oos.writeObject(m);
             }
@@ -52,6 +54,9 @@ public class LeaderBoardModel implements Serializable{
         return Collections.unmodifiableList(extension);
     }
 
+    public static void addToExt(LeaderBoardModel m){
+        extension.add(m);
+    }
     public int getScore() {
         return score;
     }

@@ -49,7 +49,7 @@ public class DifficultyView extends JFrame {
 
     public void setEasy(){
         difficulty = DifficultyEnum.EASY;
-        new GameController(new GameView());
+        new GameController(new GameView(),difficulty);
         this.dispose();
     }
 
@@ -60,7 +60,7 @@ public class DifficultyView extends JFrame {
 
     public void setMedium(){
         difficulty = DifficultyEnum.NORMAL;
-        new GameController(new GameView());
+        new GameController(new GameView(),difficulty);
         this.dispose();
     }
 
@@ -70,7 +70,7 @@ public class DifficultyView extends JFrame {
 
     public void setHard(){
         difficulty = DifficultyEnum.HARD;
-        new GameController(new GameView());
+        new GameController(new GameView(),difficulty);
         this.dispose();
     }
 

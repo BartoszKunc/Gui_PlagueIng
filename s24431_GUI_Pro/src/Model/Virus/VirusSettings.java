@@ -1,10 +1,14 @@
-package Model;
+package Model.Virus;
+
+import Model.DifficultyEnum;
 
 public class VirusSettings {
+    private static DifficultyEnum difficulty;
     public VirusSettings() {
     }
 
     public static Virus createVirus(DifficultyEnum difficultyEnum) {
+        difficulty = difficultyEnum;
         Virus virus = null;
         if(difficultyEnum == DifficultyEnum.EASY) {
         virus = new Virus(1.0, 0.01);
@@ -15,5 +19,9 @@ public class VirusSettings {
         }
 
         return virus;
+    }
+
+    public static DifficultyEnum getDifficulty(){
+        return difficulty;
     }
 }

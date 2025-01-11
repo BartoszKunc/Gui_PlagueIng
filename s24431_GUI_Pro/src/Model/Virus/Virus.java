@@ -1,4 +1,4 @@
-package Model;
+package Model.Virus;
 
 public class Virus {
 
@@ -50,12 +50,22 @@ public class Virus {
         this.active = false; // Wyłączenie wirusa, np. po eradykacji
     }
 
-    // Metoda do obliczenia potencjalnej liczby nowych zakażeń
     public int calculateNewInfections(int population, int infected) {
         if (!active) return 0;
-        double potentialInfections = infected * infectionRate * (1 - ((double) infected / population));
-        return Math.min((int) potentialInfections, population - infected);
+
+        // Minimalny przyrost zakażeń, jeśli są jeszcze zdrowi
+        double potentialInfections = infected * infectionRate;
+        int result = Math.min((int) Math.ceil(potentialInfections), population - infected);
+
+        // Upewniamy się, że jeśli są zdrowi, dodajemy przynajmniej 1 nową infekcję
+        if (result == 0 && infected < population) {
+            result = 1;
+        }
+
+        return result;
     }
+
+
 
 
 }

@@ -2,8 +2,6 @@ package View;
 
 import Controller.MainMenuController;
 import Model.MapPanel;
-import Model.TransportConnection;
-import Model.TransportModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,6 +20,8 @@ public class GameView extends JFrame {
     private JPanel topBarPanel;
     private JLabel timer;
     private JLabel score;
+
+    private static MapPanel mapPanel;
 
     private JPanel bottomPanel;
     private JButton upgradeButton;
@@ -55,7 +55,7 @@ public class GameView extends JFrame {
         topBarPanel.setBackground(Color.GRAY);
 
         timer = new JLabel("Time: 0");
-        score = new JLabel("Score: 0");
+        score = new JLabel("Points: 0");
 
         topBarPanel.add(timer);
         topBarPanel.add(score);
@@ -63,7 +63,7 @@ public class GameView extends JFrame {
 
         // ============ Panel środkowy: nasz MapPanel ============
         // W MapPanel jest rysowana mapa + nazwy państw, zarażenia itp.
-        MapPanel mapPanel = new MapPanel();
+        mapPanel = new MapPanel();
         add(mapPanel, BorderLayout.CENTER);
 
         // ============ Panel dolny (przyciski) ============
@@ -103,6 +103,10 @@ public class GameView extends JFrame {
         });
     }
 
+    public void updateCureProgress(double progress){
+       SwingUtilities.invokeLater(()->{progressButton.setText("Progress: " + progress+"%");});
+    }
+
     // ====== Gettery / settery / metody pomocnicze (opcjonalnie) ======
 
     public JLabel getTimerLabel() {
@@ -123,5 +127,9 @@ public class GameView extends JFrame {
 
     public JLabel getTimer() {
         return timer;
+    }
+
+    public static MapPanel getMapPanel() {
+        return mapPanel;
     }
 }

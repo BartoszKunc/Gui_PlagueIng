@@ -1,5 +1,7 @@
 package Model;
 
+import Model.Virus.Virus;
+
 public class GameState {
     private CountryModel countryModel;
     private static Virus virus;

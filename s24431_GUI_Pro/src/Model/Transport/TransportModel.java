@@ -1,4 +1,6 @@
-package Model;
+package Model.Transport;
+
+import Model.CountryModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,7 +9,7 @@ import java.util.Map;
 
 public class TransportModel {
 
-    private List<TransportConnection> connections;
+    private static List<TransportConnection> connections;
 
     public TransportModel() {
         this.connections = new ArrayList<>();
@@ -105,4 +107,7 @@ public class TransportModel {
     }
 
     // ... inne potrzebne metody
+
+
+
 }

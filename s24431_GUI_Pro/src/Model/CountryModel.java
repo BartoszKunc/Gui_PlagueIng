@@ -6,6 +6,7 @@ public class CountryModel {
     private static List<CountryModel> extensionCountryies = new ArrayList<CountryModel>();;
     private String name;
     private int population;
+    private int initialPopulation;
     private int infected;
     private int recovered;
     private int dead;
@@ -23,6 +24,7 @@ public class CountryModel {
     public CountryModel(String name, int population, boolean isShipOpen,int x, int y) {
         this.name = name;
         this.population = population;
+        this.initialPopulation = population;
         this.infected = 0;
         if(name.equals("Chiny"))
             this.infected = 1;
@@ -83,6 +85,9 @@ public class CountryModel {
         this.infected = infected;
     }
 
+    public void setPopulation(int population) {
+        this.population = population;
+    }
 
     /**
      * Wylecz część populacji z zarażonych.
@@ -93,6 +98,11 @@ public class CountryModel {
         }
         infected -= number;
         recovered += number;
+    }
+
+    public void massRecover(){
+        int recoverable = (int) (infected * 0.1);
+        recover(recoverable);
     }
 
     /**
@@ -145,6 +155,14 @@ public class CountryModel {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public int getInitialPopulation() {
+        return initialPopulation;
+    }
+
+    public void setInitialPopulation(int initialPopulation) {
+        this.initialPopulation = initialPopulation;
     }
 
     public static List<CountryModel> getExtensionCountryies() {

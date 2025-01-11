@@ -1,4 +1,6 @@
-package Model;
+package Model.Transport;
+
+import Model.CountryModel;
 
 public class TransportConnection {
     private CountryModel source;
