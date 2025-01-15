@@ -11,6 +11,9 @@ import AntiPlagueInc.Model.VirusPackage.VirusThread;
 import AntiPlagueInc.View.GameView;
 import AntiPlagueInc.View.UpgradeView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class GameController {
     private GameView gameView;
@@ -20,6 +23,8 @@ public class GameController {
     private DifficultyEnum difficulty;
     private Cure cure;
     private static int upgradePoints;
+    private UpgradeController upgradeController;
+
 
     //zmienne do watkow
     private TimeCureManager tm;
@@ -141,6 +146,9 @@ public class GameController {
         EndGameController.saveScore(score);
         gameView.dispose();
         killAllThreads();
+        //Usuwanie obiektów ekstensji w celu poprawnego naliczania punktow za wygrana
+        CountryModel.resetCountries();
+        upgradeController.getView().dispose();
 
     }
 
@@ -160,7 +168,7 @@ public class GameController {
 
     //gameview
     public void enableUpgrades(){
-        new UpgradeController(new UpgradeView(), this);
+        upgradeController = new UpgradeController(new UpgradeView(), this);
     }
 
     //getter/settery

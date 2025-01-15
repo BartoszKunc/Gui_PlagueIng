@@ -22,13 +22,14 @@ public class TransportConnection {
      * Funkcja blokująca i odblokująca transport
      */
     public void evaluateTransportStatus() {
-        double infectionRate = (double) source.getInfected() / source.getPopulation();
-        if (infectionRate >= threshold) {
+        double infectionRateSource = (double) source.getInfected() / source.getPopulation();
+
+        if (infectionRateSource >= threshold) {
             setOpen(false);
-            System.out.println("Connection: "+source.getName() +" "+destination.getName()+" is now closed");
-        }else{
+            System.out.println("Connection: "+source.getName() +"("+threshold+") "+destination.getName()+" is now closed");
+        }else if(infectionRateSource < threshold && source.getPopulation() > 0){
             setOpen(true);
-            System.out.println("Connection: "+source.getName() +" "+destination.getName()+" is now open");
+            System.out.println("Connection: "+source.getName() +"("+threshold+") "+destination.getName()+" is now closed");
         }
     }
 
@@ -62,5 +63,9 @@ public class TransportConnection {
 
     public void setOpen(boolean open) {
         this.open = open;
+    }
+
+    public double getThreshold() {
+        return threshold;
     }
 }

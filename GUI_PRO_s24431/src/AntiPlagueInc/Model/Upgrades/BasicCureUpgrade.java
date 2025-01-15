@@ -1,11 +1,12 @@
 package  AntiPlagueInc.Model.Upgrades;
 
+import AntiPlagueInc.Controller.GameController;
 import AntiPlagueInc.Model.Cure.Cure;
 import AntiPlagueInc.Model.VirusPackage.*;
 
 public class BasicCureUpgrade extends Upgrade {
-    public BasicCureUpgrade(String name, String desc, int price, Cure cure, Virus virus) {
-        super(name, desc, price, cure, virus);
+    public BasicCureUpgrade(String name, String desc, int price, GameController gameController) {
+        super(name, desc, price, gameController);
     }
 
     @Override

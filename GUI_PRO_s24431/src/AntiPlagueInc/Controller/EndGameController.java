@@ -26,6 +26,8 @@ public class EndGameController {
             }
         }
 
+        JOptionPane.showMessageDialog(null, "Gameover your score is: "+score, "Game Ended", JOptionPane.INFORMATION_MESSAGE);
+
         LeaderBoardModel lbm = new LeaderBoardModel(name,score);
         LeaderBoardModel.saveToFile();
 

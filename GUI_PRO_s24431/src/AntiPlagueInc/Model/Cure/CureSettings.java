@@ -7,9 +7,9 @@ public class CureSettings {
         Cure cure = null;
 
         if(difficulty == DifficultyEnum.EASY){
-            cure = new Cure(0.6);
+            cure = new Cure(0.45);
         }else if(difficulty == DifficultyEnum.NORMAL){
-            cure = new Cure(0.4);
+            cure = new Cure(0.35);
         }else{
             cure = new Cure(0.2);
         }

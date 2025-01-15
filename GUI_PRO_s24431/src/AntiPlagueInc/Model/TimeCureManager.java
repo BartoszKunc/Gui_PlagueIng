@@ -20,6 +20,7 @@ public class TimeCureManager implements Runnable {
     private List<CountryModel> countries;
     private GameController gameController;
     private Cure cure;
+    private int time;
     private static int totalTime;
     private LocalDateTime startTime;
 
@@ -29,6 +30,7 @@ public class TimeCureManager implements Runnable {
         this.seconds = 0;
         this.minutes = 0;
         this.totalTime = 0;
+        this.time = 0;
         this.startTime = LocalDateTime.now();
         this.countries = CountryModel.getExtensionCountryies();
         this.gameController = gameController;
@@ -63,9 +65,11 @@ public class TimeCureManager implements Runnable {
 
     private void incrementTime() {
         Duration duration = Duration.between(startTime, LocalDateTime.now());
+        time = (int)duration.getSeconds();
+        seconds = time%60;
+        minutes = time/60;
+
         totalTime = (int)duration.getSeconds();
-        seconds = totalTime%60;
-        minutes = totalTime/60;
     }
 
     private String formatTime() {
@@ -77,6 +81,7 @@ public class TimeCureManager implements Runnable {
     }
 
     public static int getTotalTime(){
+
         return totalTime;
     }
 }

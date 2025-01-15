@@ -35,8 +35,6 @@ public class VirusThread implements Runnable {
                         //gdy szczepionka gotowa lecz nadal nie dziala
                         heal(cure.getHealing());
                     } else {
-                        //zabijanie
-                        kill();
                         // zarazanie wewnątrz kraju
                         infectCountry();
                         //zarazanie miedzy krajami
@@ -45,6 +43,10 @@ public class VirusThread implements Runnable {
                             if (connection.isOpen() && roll())
                                 infectConnectedCountry(connection);
                         }
+                    }
+
+                        //zabijanie
+                        kill();
 
                         //uzdrowiena ludzi
                         randomHeal();
@@ -55,8 +57,7 @@ public class VirusThread implements Runnable {
                         if(!GameView.isRunning())
                             running = false;
 
-                        Thread.sleep(1000);
-                    }
+                    Thread.sleep(1000);
                 }
 
             }catch(InterruptedException e) {
@@ -91,7 +92,7 @@ public class VirusThread implements Runnable {
     public void infectCountry() {
         for(CountryModel cm: CountryModel.getExtensionCountryies()){
 
-                if (cm.getInfected() > 0 && !cure.isCompleted() && roll(0.4)) {
+                if (cm.getInfected() > 0  && roll(0.4)) {
                     int newInfection = virus.calculateNewInfections(cm.getPopulation(), cm.getInfected());
                     if (newInfection > cm.getPopulation() || cm.getInfected() + newInfection > cm.getPopulation()) {
                         cm.setInfected(cm.getPopulation());
@@ -107,10 +108,10 @@ public class VirusThread implements Runnable {
     public void kill(){
         for(CountryModel cm: CountryModel.getExtensionCountryies()){
 
-            if(cm.getPopulation()>0 && cm.getInfected() > 0 && !cure.isCompleted() && roll(0.5)) {
+            if(cm.getPopulation()>0 && cm.getInfected() > 0 && roll(0.5)) {
                 double percentOfInfectedInCountry = (double) cm.getInfected() / cm.getPopulation() * 100;
-                if (percentOfInfectedInCountry > 25) {
-                    int calculateDeaths = virus.calculateNewDeaths(cm.getInfected());
+                if (percentOfInfectedInCountry > 15) {
+                    int calculateDeaths = virus.calculateNewDeaths(cm.getInfected())+10;
                     cm.die(calculateDeaths);
                 }
             }
@@ -133,7 +134,7 @@ public class VirusThread implements Runnable {
     public void heal(int healing){
         for(CountryModel cm: CountryModel.getExtensionCountryies()){
             if(cm.getPopulation()>0 && cure.isCompleted()){
-                int heals = (int)(cm.getPopulation()/healing);
+                int heals = (int)(cm.getInfected()/healing)+10;
                 cm.heal(heals);
 
             }

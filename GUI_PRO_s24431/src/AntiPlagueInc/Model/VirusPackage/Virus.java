@@ -40,8 +40,12 @@ public class Virus {
         int infections = (int)(source.getInfected()*infectionRate)+1;
 
         //zabezpieczenie przed nadmiernym zarazaniem przez transport
+        if(infections > 50 && type == TransportType.CAR)
+            return 4;
+
         if(infections > 50)
             return 50;
+
         return infections;
     }
 

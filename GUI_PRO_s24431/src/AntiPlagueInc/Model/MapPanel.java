@@ -1,18 +1,18 @@
 package AntiPlagueInc.Model;
 
+import AntiPlagueInc.Model.Transport.AirplaneThread;
 import AntiPlagueInc.Model.Transport.TransportConnection;
 import AntiPlagueInc.Model.Transport.TransportModel;
 import AntiPlagueInc.Model.Transport.TransportType;
+import AntiPlagueInc.Model.Upgrades.Upgrade;
 
 import javax.swing.*;
 import java.awt.*;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MapPanel extends JPanel {
     private Image mapImage;
-
     private List<CountryModel> countries;
 
     private static TransportModel transportModel;
@@ -22,6 +22,7 @@ public class MapPanel extends JPanel {
         ImageIcon icon = new ImageIcon("src/resources/png/wordlMap.png");
         mapImage = icon.getImage();
 
+
         //init krajów i transportu
         initCountries();
         transportModel = new TransportModel();
@@ -30,17 +31,19 @@ public class MapPanel extends JPanel {
     }
 
     private void initCountries() {
+        CountryModel.resetCountries();
+        Upgrade.cleanUpgrades();
         countries = new ArrayList<>();
         countries.add(new CountryModel("Chiny", 2000000,1400, 550));
         countries.add(new CountryModel("Rosja", 190000,1140, 350));
-        countries.add(new CountryModel("Ukraina", 70000,1010, 460));
-        countries.add(new CountryModel("Polska", 38000,970, 435));
-        countries.add(new CountryModel("Meksyk", 1000000,305, 620));
-        countries.add(new CountryModel("Kazachstan", 80000,1200, 450));
-        countries.add(new CountryModel("Argentyna", 30000,525, 940));
-        countries.add(new CountryModel("Canada", 160000,340, 350));
-        countries.add(new CountryModel("USA", 192000,340, 500));
-        countries.add(new CountryModel("Brazylia", 600000,590, 820));
+        countries.add(new CountryModel("Ukraina", 70000,1015, 460));
+        countries.add(new CountryModel("Polska", 38000,945, 436));
+        countries.add(new CountryModel("Meksyk", 1000000,310, 620));
+        countries.add(new CountryModel("Kazachstan", 80000,1990, 450));
+        countries.add(new CountryModel("Argentyna", 30000,515, 940));
+        countries.add(new CountryModel("Canada", 160000,250, 350));
+        countries.add(new CountryModel("USA", 192000,250, 500));
+        countries.add(new CountryModel("Brazylia", 600000,530, 780));
     }
 
     @Override
@@ -49,8 +52,8 @@ public class MapPanel extends JPanel {
 
         // Rysowanie tła
         g.drawImage(mapImage, 0, 0, getWidth(), getHeight(), this);
-        // Rysujemy linie/połączenia
-        drawConnections(g);
+        // Rysowanie portów
+        drawPorts(g);
 
         // nazwy krajow + dane
         for (CountryModel c : countries) {
@@ -63,53 +66,77 @@ public class MapPanel extends JPanel {
             g.drawString(c.getName() + ": " + c.getInfected() + "/" + c.getPopulation(), scaledX, scaledY);
 
         }
+
     }
 
 
     /**
-     * Metoda pomocnicza do narysowania wszystkich połączeń.
+     * Metody pomocnicze do wyswietlenia otwartych transportów
      */
-    private void drawConnections(Graphics g) {
+    private void drawPorts(Graphics g) {
         if (transportModel == null) return;
+
         java.util.List<TransportConnection> connections = transportModel.getAllConnections();
-
         Graphics2D g2 = (Graphics2D) g;
-        for (TransportConnection conn : connections) {
-            CountryModel src = conn.getSource();
-            CountryModel dst = conn.getDestination();
 
-            int x1 = (int) (src.getX() / (double) mapImage.getWidth(null) * getWidth());
-            int y1 = (int) (src.getY() / (double) mapImage.getHeight(null) * getHeight());
-            int x2 = (int) (dst.getX() / (double) mapImage.getWidth(null) * getWidth());
-            int y2 = (int) (dst.getY() / (double) mapImage.getHeight(null) * getHeight());
+        Image airplaneOpen = new ImageIcon("src/resources/png/planeNoBackGround.png").getImage();
+        Image airplaneClosed = new ImageIcon("src/resources/png/planeNoBackGroundClosed.png").getImage();
+        Image shipOpen = new ImageIcon("src/resources/png/anchorNoBackGround.png").getImage();
+        Image shipClosed = new ImageIcon("src/resources/png/anchorNoBackGroundClosed.png").getImage();
+        Image carOpen = new ImageIcon("src/resources/png/carIcon.png").getImage();
+        Image carClosed = new ImageIcon("src/resources/png/carIconClosed.png").getImage();
 
-            // kolor i grubość linii w zależności od typu transportu i stanu
-            if (!conn.isOpen()) {
-                g2.setColor(Color.GRAY);
-                float[] dashPattern = { 5, 5 };
-                g2.setStroke(new BasicStroke(2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10f, dashPattern, 0f));
+        for (CountryModel country : CountryModel.getExtensionCountryies()) {
+            int x = (int) (country.getX() / (double) mapImage.getWidth(null) * getWidth());
+            int y = (int) (country.getY() / (double) mapImage.getHeight(null) * getHeight());
 
-            } else {
-                // Połączenie otwarte
-                switch (conn.getType()) {
-                    case AIRPLANE:
-                        g2.setColor(Color.BLACK);
-                        break;
-                    case SHIP:
-                        g2.setColor(Color.BLUE);
-                        break;
-                    case CAR:
-                        g2.setColor(Color.GREEN);
-                        break;
-                    default:
-                        g2.setColor(Color.GRAY);
-                        break;
-                }
-                g2.setStroke(new BasicStroke(2f));
+
+            // startowa pozycja dla ikonek portów
+            int iconX = x;
+            int iconY = y+5;
+
+            // Sprawdzanie połączeń i rysowanie odpowiednich ikon
+            if (hasConnection(country, TransportType.AIRPLANE)) {
+                boolean airOpenI = countryHasOpenPort(country, TransportType.AIRPLANE);
+                g2.drawImage(airOpenI ? airplaneOpen : airplaneClosed, iconX, iconY, 16, 16, null);
+                //przesunięcie w prawo dla następnej ikonki
+                iconX += 20;
             }
 
+            if (hasConnection(country, TransportType.SHIP)) {
+                boolean shipOpenI = countryHasOpenPort(country, TransportType.SHIP);
+                g2.drawImage(shipOpenI ? shipOpen : shipClosed, iconX, iconY, 16, 16, null);
+                //przesunięcie w prawo dla następnej ikon
+                iconX += 20;
+            }
 
-            g2.drawLine(x1, y1, x2, y2);
+            if (hasConnection(country, TransportType.CAR)) {
+                boolean carOpenI = countryHasOpenPort(country, TransportType.CAR);
+                g2.drawImage(carOpenI ? carOpen : carClosed, iconX, iconY, 16, 16, null);
+            }
         }
     }
+
+    private boolean hasConnection(CountryModel country, TransportType type) {
+        // Sprawdzanie typów połączen
+        for (TransportConnection connection : transportModel.getAllConnections()) {
+            if ((connection.getSource().equals(country) || connection.getDestination().equals(country))
+                    && connection.getType() == type) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean countryHasOpenPort(CountryModel country, TransportType type) {
+        // Sprawdzanie stanu otwarcia portu
+        for (TransportConnection connection : transportModel.getAllConnections()) {
+            if ((connection.getSource().equals(country) || connection.getDestination().equals(country))
+                    && connection.getType() == type) {
+                return connection.isOpen();
+            }
+        }
+        return false;
+    }
+
 }

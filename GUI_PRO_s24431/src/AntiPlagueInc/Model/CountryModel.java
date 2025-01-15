@@ -31,6 +31,11 @@ public class CountryModel {
         extensionCountryies.add(this);
     }
 
+    public static void resetCountries() {
+        extensionCountryies.clear();
+    }
+
+
     public CountryModel() {
     }
 

@@ -9,7 +9,7 @@ public class Cure {
     public Cure(double reasearchSpeed) {
         this.progress = 0.0;
         this.researchSpeed = reasearchSpeed;
-        this.healing = 50;
+        this.healing = 10;
         this.completed = false;
     }
 
