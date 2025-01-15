@@ -25,7 +25,7 @@ public class UpgradeView extends JFrame {
     public void init() {
         this.setTitle("Upgrades");
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        this.setSize(800, 500);
+        this.setSize(1400, 600);
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
         this.setVisible(true);
@@ -50,7 +50,7 @@ public class UpgradeView extends JFrame {
         upgradeLabels.clear();
 
         for (Upgrade upgrade : upgrades) {
-            JLabel upgradeLabel = new JLabel(upgrade.getName() + " - Cost: " + upgrade.getPrice() + " points");
+            JLabel upgradeLabel = new JLabel(upgrade.getName() + ", Cost: " + upgrade.getPrice() + " points, "+upgrade.getDescription());
             JButton upgradeButton = new JButton("Buy");
 
 

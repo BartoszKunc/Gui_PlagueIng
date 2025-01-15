@@ -23,7 +23,7 @@ public class LeaderBoardModel implements Serializable{
     public static void saveToFile(){
 
         try {
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("C:\\Users\\Bartek\\Desktop\\studia\\GUI\\GUI_PRO_s24431\\GUI_PRO_s24431\\LeaderBoard.ser"));
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("src/resources/Save/LeaderBoard.ser"));
             for (LeaderBoardModel m : extension) {
                 oos.writeObject(m);
             }
@@ -35,7 +35,7 @@ public class LeaderBoardModel implements Serializable{
 
     public static void loadFromFile(){
         extension.clear();
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("C:\\Users\\Bartek\\Desktop\\studia\\GUI\\GUI_PRO_s24431\\GUI_PRO_s24431\\LeaderBoard.ser"))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("src/resources/Save/LeaderBoard.ser"))) {
             while (true) {
                 try {
                     LeaderBoardModel lb = (LeaderBoardModel) ois.readObject();

@@ -8,13 +8,15 @@ import java.util.ArrayList;
 
 public abstract class Upgrade {
     private String name;
+    private String description;
     private int price;
     private boolean used;
     protected Cure cure;
     protected Virus virus;
 
-    public Upgrade(String name, int price, Cure cure, Virus virus) {
+    public Upgrade(String name,String desc, int price, Cure cure, Virus virus) {
         this.name = name;
+        this.description = desc;
         this.price = price;
         this.cure = cure;
         this.virus = virus;
@@ -40,5 +42,7 @@ public abstract class Upgrade {
         this.used = used;
     }
 
-
+    public String getDescription() {
+        return description;
+    }
 }

@@ -4,8 +4,8 @@ import AntiPlagueInc.Model.Cure.Cure;
 import AntiPlagueInc.Model.VirusPackage.*;
 
 public class GreatInfectionReducementUpgrade extends Upgrade{
-    public GreatInfectionReducementUpgrade(String name, int price, Cure cure, Virus virus) {
-        super(name, price, cure, virus);
+    public GreatInfectionReducementUpgrade(String name, String desc, int price, Cure cure, Virus virus) {
+        super(name, desc, price, cure, virus);
     }
 
     @Override

@@ -1,3 +1,5 @@
+package AntiPlagueInc;
+
 import AntiPlagueInc.Controller.MainMenuController;
 import AntiPlagueInc.View.MainMenuView;
 

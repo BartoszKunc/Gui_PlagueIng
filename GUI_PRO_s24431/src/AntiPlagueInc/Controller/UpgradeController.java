@@ -29,15 +29,16 @@ public class UpgradeController {
      * Inicjalizacja pakietów ulepszeń
      */
     public void initUpgrades(){
-        upgrades.add(new TreatmentUpgrade("Treatement Upgrade", 500, gameController.getCure(), gameController.getVirus()));
-        upgrades.add(new MaskDeliveryUpgrade("Mask Delivery Upgrade", 750, gameController.getCure(), gameController.getVirus()));
-        upgrades.add(new BasicCureUpgrade("Basic Cure Upgrade", 500, gameController.getCure(), gameController.getVirus()));
-        upgrades.add(new MediumCureUpgrade("Medium Cure Upgrade", 1000, gameController.getCure(), gameController.getVirus()));
-        upgrades.add(new StrongCureUpgrade("Strong Cure Upgrade", 1250, gameController.getCure(), gameController.getVirus()));
-        upgrades.add(new NewMedicineUpgrade("New Medicine Upgrade", 500, gameController.getCure(), gameController.getVirus()));
-        upgrades.add(new LockdownUpgrade("LockDown Upgrade", 500, gameController.getCure(), gameController.getVirus()));
-        upgrades.add(new GreatInfectionReducementUpgrade("Great Infection Reducement Upgrade", 1000, gameController.getCure(), gameController.getVirus()));
-        upgrades.add(new MortalityDecreaseUpgrade("Mortality Decrese Upgrade", 400, gameController.getCure(), gameController.getVirus()));
+        upgrades.add(new MortalityDecreaseUpgrade("Mortality Decrese Upgrade","Decrease mortality rate", 400, gameController.getCure(), gameController.getVirus()));
+        upgrades.add(new TreatmentUpgrade("Treatement Upgrade","Decreace infection rate", 500, gameController.getCure(), gameController.getVirus()));
+        upgrades.add(new BasicCureUpgrade("Basic Cure Upgrade","Advance progress", 500, gameController.getCure(), gameController.getVirus()));
+        upgrades.add(new NewMedicineUpgrade("New Medicine Upgrade","Decreace infection rate", 500, gameController.getCure(), gameController.getVirus()));
+        upgrades.add(new LockdownUpgrade("LockDown Upgrade","Decreace infection rate", 500, gameController.getCure(), gameController.getVirus()));
+        upgrades.add(new MaskDeliveryUpgrade("Mask Delivery Upgrade","Decreace infection rate", 750, gameController.getCure(), gameController.getVirus()));
+        upgrades.add(new GreatInfectionReducementUpgrade("Great Infection Reducement Upgrade","Decreace infection rate", 1000, gameController.getCure(), gameController.getVirus()));
+        upgrades.add(new MediumCureUpgrade("Medium Cure Upgrade","Advance progress", 1000, gameController.getCure(), gameController.getVirus()));
+        upgrades.add(new StrongCureUpgrade("Strong Cure Upgrade","Advance progress", 1250, gameController.getCure(), gameController.getVirus()));
+
     }
 
     /**

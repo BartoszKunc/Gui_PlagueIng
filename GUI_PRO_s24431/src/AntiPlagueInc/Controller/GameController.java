@@ -137,7 +137,7 @@ public class GameController {
      * Funkcja przekazuje wątkom flagi do zakończenia działania, uruchamia ekran końcowy
      *
      */
-    public void endGame(int score){
+    public void endGame(int score) {
         EndGameController.saveScore(score);
         gameView.dispose();
         killAllThreads();

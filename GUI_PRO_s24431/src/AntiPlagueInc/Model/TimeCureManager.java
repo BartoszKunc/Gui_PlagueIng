@@ -3,10 +3,15 @@ package  AntiPlagueInc.Model;
 import AntiPlagueInc.Controller.GameController;
 import AntiPlagueInc.Model.Cure.Cure;
 import AntiPlagueInc.Model.Cure.CureSettings;
+import AntiPlagueInc.View.GameView;
 
+import java.sql.Time;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
-import static java.lang.Math.round;
+
 
 
 public class TimeCureManager implements Runnable {
@@ -16,37 +21,19 @@ public class TimeCureManager implements Runnable {
     private GameController gameController;
     private Cure cure;
     private static int totalTime;
+    private LocalDateTime startTime;
 
-    private boolean gameRunning; // Wskazuje, czy gra trwa
+    private boolean gameRunning;
 
     public TimeCureManager(GameController gameController, Cure cure) {
         this.seconds = 0;
         this.minutes = 0;
         this.totalTime = 0;
+        this.startTime = LocalDateTime.now();
         this.countries = CountryModel.getExtensionCountryies();
         this.gameController = gameController;
         this.cure = cure;
         this.gameRunning = true;
-    }
-
-    public int getSeconds() {
-        return seconds;
-    }
-
-    public int getMinutes() {
-        return minutes;
-    }
-
-    public void setSeconds(int seconds) {
-        this.seconds = seconds;
-    }
-
-    public void setMinutes(int minutes) {
-        this.minutes = minutes;
-    }
-
-    public void stop() {
-        gameRunning = false;
     }
 
     @Override
@@ -54,6 +41,8 @@ public class TimeCureManager implements Runnable {
         while (gameRunning) {
             try {
                 Thread.sleep(1000);
+
+                //liczenie czasu
                 incrementTime();
 
                 // Aktualizacja wyświetlania czasu
@@ -62,21 +51,21 @@ public class TimeCureManager implements Runnable {
                 //cure
                 cure.addProgress();
                 gameController.passGameView().getProgressButton().setText("Progress: " + Math.round(cure.getProgress())+"%");
+                if(!GameView.isRunning())
+                    gameRunning = false;
 
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                break;
+            }catch (InterruptedException e){
+                e.printStackTrace();
             }
         }
+        System.out.println(this.getClass().getName() + " stopped");
     }
 
     private void incrementTime() {
-        seconds++;
-        totalTime ++;
-        if (seconds >= 60) {
-            minutes++;
-            seconds = 0;
-        }
+        Duration duration = Duration.between(startTime, LocalDateTime.now());
+        totalTime = (int)duration.getSeconds();
+        seconds = totalTime%60;
+        minutes = totalTime/60;
     }
 
     private String formatTime() {

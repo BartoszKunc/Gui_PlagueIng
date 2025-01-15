@@ -69,8 +69,11 @@ public class CountryModel {
     public void die(int count){
         if(this.population-count<0) {
             this.population = 0;
-        }else
+            this.infected = 0;
+        }else{
             this.population -= count;
+            this.infected -= count;
+            }
     }
 
     public void heal(int count){

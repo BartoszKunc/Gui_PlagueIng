@@ -6,6 +6,7 @@ import AntiPlagueInc.Model.Transport.TransportType;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class MapPanel extends JPanel {
 
     public MapPanel() {
         // Wczytanie grafiki mapy
-        ImageIcon icon = new ImageIcon("GUI_PRO_s24431/src/resources/png/wordlMap.png");
+        ImageIcon icon = new ImageIcon("src/resources/png/wordlMap.png");
         mapImage = icon.getImage();
 
         //init krajów i transportu
@@ -58,27 +59,9 @@ public class MapPanel extends JPanel {
             int scaledY = (int) (c.getY() / (double) mapImage.getHeight(null) * getHeight());
 
             // Rysowanie nazwy (zakażeń, populacji itp.)
-            g.setColor(Color.magenta);
+            g.setColor(Color.red);
             g.drawString(c.getName() + ": " + c.getInfected() + "/" + c.getPopulation(), scaledX, scaledY);
 
-            // Sprawdzamy, czy w tym kraju jest port (SHIP) lub lotnisko (AIRPLANE)
-            boolean hasPort = false;
-            boolean hasAirport = false;
-
-            // Przeszukujemy wszystkie połączenia
-            for (TransportConnection conn : transportModel.getAllConnections()) {
-                // Jeśli kraj jest źródłem LUB celem w tym połączeniu:
-                if (conn.getSource().equals(c) || conn.getDestination().equals(c)) {
-                    // Połączenie jest otwarte i typu SHIP -> port
-                    if (conn.isOpen() && conn.getType() == TransportType.SHIP) {
-                        hasPort = true;
-                    }
-                    // Połączenie jest otwarte i typu AIRPLANE -> lotnisko
-                    if (conn.isOpen() && conn.getType() == TransportType.AIRPLANE) {
-                        hasAirport = true;
-                    }
-                }
-            }
         }
     }
 
@@ -128,13 +111,5 @@ public class MapPanel extends JPanel {
 
             g2.drawLine(x1, y1, x2, y2);
         }
-    }
-
-    public static TransportModel getTransportModel() {
-        return transportModel;
-    }
-
-    public void setCountries(List<CountryModel> countries) {
-        this.countries = countries;
     }
 }

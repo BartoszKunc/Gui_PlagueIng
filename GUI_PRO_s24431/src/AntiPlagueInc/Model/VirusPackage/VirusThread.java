@@ -6,6 +6,7 @@ import AntiPlagueInc.Model.Cure.Cure;
 import AntiPlagueInc.Model.Transport.TransportConnection;
 import AntiPlagueInc.Model.Transport.TransportModel;
 import AntiPlagueInc.Model.Transport.TransportType;
+import AntiPlagueInc.View.GameView;
 
 import java.util.List;
 
@@ -51,6 +52,9 @@ public class VirusThread implements Runnable {
                         //sprawdzanie portów
                         transportModel.evaluateAllConnections();
 
+                        if(!GameView.isRunning())
+                            running = false;
+
                         Thread.sleep(1000);
                     }
                 }
@@ -59,13 +63,15 @@ public class VirusThread implements Runnable {
                 e.printStackTrace();
             }
         }
+        System.out.println(this.getClass().getName() + " stopped");
     }
 
     public void randomHeal(){
         int randomHealAmount = 0;
         for (CountryModel cm: CountryModel.getExtensionCountryies()){
 
-            if(cm.getInfected()>0 && roll()){
+            //zabezpieczenie przed natychmiastową wygraną dlatego jest 10
+            if(cm.getInfected()>10 && roll(0.8)){
                 randomHealAmount = (int) (cm.getInfected()/10)+1;
 
                 if(randomHealAmount>10)
@@ -85,7 +91,7 @@ public class VirusThread implements Runnable {
     public void infectCountry() {
         for(CountryModel cm: CountryModel.getExtensionCountryies()){
 
-                if (cm.getInfected() > 0 && !cure.isCompleted() && roll(0.35)) {
+                if (cm.getInfected() > 0 && !cure.isCompleted() && roll(0.4)) {
                     int newInfection = virus.calculateNewInfections(cm.getPopulation(), cm.getInfected());
                     if (newInfection > cm.getPopulation() || cm.getInfected() + newInfection > cm.getPopulation()) {
                         cm.setInfected(cm.getPopulation());
@@ -101,7 +107,7 @@ public class VirusThread implements Runnable {
     public void kill(){
         for(CountryModel cm: CountryModel.getExtensionCountryies()){
 
-            if(cm.getPopulation()>0 && !cure.isCompleted() && roll(0.5)) {
+            if(cm.getPopulation()>0 && cm.getInfected() > 0 && !cure.isCompleted() && roll(0.5)) {
                 double percentOfInfectedInCountry = (double) cm.getInfected() / cm.getPopulation() * 100;
                 if (percentOfInfectedInCountry > 25) {
                     int calculateDeaths = virus.calculateNewDeaths(cm.getInfected());

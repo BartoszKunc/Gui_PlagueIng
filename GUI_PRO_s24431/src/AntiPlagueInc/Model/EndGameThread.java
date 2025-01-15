@@ -5,6 +5,7 @@ import AntiPlagueInc.Controller.GameController;
 public class EndGameThread implements Runnable {
     private GameController gameController;
     private boolean running;
+
     public EndGameThread(GameController gameController) {
         this.gameController = gameController;
         running = true;
@@ -16,7 +17,7 @@ public class EndGameThread implements Runnable {
             try{
                 Thread.sleep(1000);
                 if(gameController.chcekEndGame()) {
-                    break;
+                    running = false;
                 }
                 gameController.passGameView().getScoreLabel().setText("Points: "+ GameController.getPoints());
 
@@ -24,6 +25,7 @@ public class EndGameThread implements Runnable {
                 e.printStackTrace();
             }
         }
+        System.out.println(this.getClass().getName() + " stopped");
     }
 
     public void setRunning(boolean running) {

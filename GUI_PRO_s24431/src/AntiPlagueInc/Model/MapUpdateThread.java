@@ -16,10 +16,15 @@ public class MapUpdateThread implements Runnable{
             try{
                 Thread.sleep(100);
                 gameView.repaint();
+
+                if(!GameView.isRunning())
+                    running = false;
+
             }catch(InterruptedException e){
                 e.printStackTrace();
             }
         }
+        System.out.println(this.getClass().getName() + " stopped");
     }
 
 

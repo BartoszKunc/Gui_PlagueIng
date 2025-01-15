@@ -10,16 +10,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-/**
- * Główne okno gry, zawiera:
- *  - Pasek górny z licznikiem czasu i wyniku,
- *  - MapPanel (mapę z narysowanymi państwami),
- *  - Pasek dolny z przyciskami Upgrade i Postęp,
- *  - Skrót klawiszowy Ctrl+Shift+Q do powrotu do menu głównego.
- */
 public class GameView extends JFrame {
 
-    // --- Komponenty GUI ---
+    // Komponenty GUI
     private JPanel topBarPanel;
     private JLabel timer;
     private static JLabel score;
@@ -29,6 +22,9 @@ public class GameView extends JFrame {
     private JPanel bottomPanel;
     private JButton upgradeButton;
     private JButton progressButton;
+
+    //do watków
+    private static boolean running;
 
 
 
@@ -43,10 +39,11 @@ public class GameView extends JFrame {
     private void init() {
         this.setTitle("KoronaVirus - Game");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(600,600);
+        this.setSize(1200,800);
         this.setLayout(new BorderLayout());
         this.setVisible(true);
         this.setLocationRelativeTo(null);
+        running = true;
     }
 
     /**
@@ -64,12 +61,12 @@ public class GameView extends JFrame {
         topBarPanel.add(score);
         add(topBarPanel, BorderLayout.NORTH);
 
-        // ============ Panel środkowy: nasz MapPanel ============
-        // W MapPanel jest rysowana mapa + nazwy państw, zarażenia itp.
+        // Panel środkowy, MapPanel
+        // W MapPanel jest rysowana mapa + nazwy państw, zarażenia
         mapPanel = new MapPanel();
         add(mapPanel, BorderLayout.CENTER);
 
-        // ============ Panel dolny (przyciski) ============
+        // Panel dolny przyciski
         // Używamy BorderLayout, żeby umieścić przyciski po bokach
         bottomPanel = new JPanel(new BorderLayout());
         upgradeButton = new JButton("Upgrade");
@@ -79,13 +76,6 @@ public class GameView extends JFrame {
         bottomPanel.add(progressButton, BorderLayout.EAST);
 
         add(bottomPanel, BorderLayout.SOUTH);
-
-        // Możesz ewentualnie dodać ActionListenery do przycisków:
-        // upgradeButton.addActionListener(...);
-        // progressButton.addActionListener(...);
-
-        // ============ Skrót klawiszowy Ctrl+Shift+Q ============
-        addShortCutListener();
 
     }
 
@@ -100,6 +90,7 @@ public class GameView extends JFrame {
         getRootPane().getActionMap().put("goBack", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                running = false;
                 new MainMenuController(new MainMenuView());
                 dispose();
             }
@@ -150,5 +141,9 @@ public class GameView extends JFrame {
 
     public static JLabel getScore() {
         return score;
+    }
+
+    public static boolean isRunning() {
+        return running;
     }
 }
