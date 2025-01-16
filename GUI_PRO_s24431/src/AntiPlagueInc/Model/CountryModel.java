@@ -6,10 +6,11 @@ public class CountryModel {
     private static List<CountryModel> extensionCountryies = new ArrayList<CountryModel>();;
     private String name;
     private int population;
-    private int initialPopulation;
     private int infected;
+    //Liczba ludzi którzy zostali wyleczeni lecz mogą zostać ponownie zarażeni
     private int recovered;
     private int dead;
+    private int initialPopulation;
 
     private int x;
     private int y;
@@ -51,15 +52,6 @@ public class CountryModel {
         return infected;
     }
 
-    public int getRecovered() {
-        return recovered;
-    }
-
-    public int getDead() {
-        return dead;
-    }
-
-
     public void setInfected(int infected) {
         this.infected = infected;
     }
@@ -75,9 +67,11 @@ public class CountryModel {
         if(this.population-count<0) {
             this.population = 0;
             this.infected = 0;
+            this.dead = initialPopulation;
         }else{
             this.population -= count;
             this.infected -= count;
+            this.dead += count;
             }
     }
 
@@ -86,11 +80,8 @@ public class CountryModel {
             this.infected = 0;
         }else{
             this.infected-=count;
+            this.recovered+=count;
         }
-    }
-
-    public void setPopulation(int population) {
-        this.population = population;
     }
 
     public int getX() {
@@ -101,27 +92,15 @@ public class CountryModel {
         return y;
     }
 
-
-    public int getInitialPopulation() {
-        return initialPopulation;
-    }
-
-    public void setInitialPopulation(int initialPopulation) {
-        this.initialPopulation = initialPopulation;
-    }
-
     public static List<CountryModel> getExtensionCountryies() {
         return extensionCountryies;
     }
 
-    @Override
-    public String toString() {
-        return "Country{" +
-                "name='" + name + '\'' +
-                ", population=" + population +
-                ", infected=" + infected +
-                ", recovered=" + recovered +
-                ", dead=" + dead +
-                '}';
+    public int getRecovered() {
+        return recovered;
+    }
+
+    public int getDead() {
+        return dead;
     }
 }

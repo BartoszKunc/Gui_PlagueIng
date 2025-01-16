@@ -2,13 +2,9 @@ package  AntiPlagueInc.Model;
 
 import AntiPlagueInc.Controller.GameController;
 import AntiPlagueInc.Model.Cure.Cure;
-import AntiPlagueInc.Model.Cure.CureSettings;
 import AntiPlagueInc.View.GameView;
-
-import java.sql.Time;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
 

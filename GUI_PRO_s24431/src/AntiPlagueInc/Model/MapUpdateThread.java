@@ -16,7 +16,7 @@ public class MapUpdateThread implements Runnable{
             try{
                 Thread.sleep(100);
                 gameView.repaint();
-
+                gameView.getMap().updateCountryButtonTexts();
                 if(!GameView.isRunning())
                     running = false;
 

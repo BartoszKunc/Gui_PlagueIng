@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class UpgradeView extends JFrame {
     private JPanel upgradesPanel;
-    private Map<Upgrade, JButton> upgradeButtons; // Mapowanie upgrade -> JButton
+    private Map<Upgrade, JButton> upgradeButtons;
 
     public UpgradeView() {
         init();
@@ -48,7 +48,7 @@ public class UpgradeView extends JFrame {
             JLabel upgradeLabel = new JLabel(upgrade.getName() + ", Cost: " + upgrade.getPrice() + " points, " + upgrade.getDescription());
             JButton upgradeButton = new JButton("Buy");
 
-            // Jeśli ulepszenie jest już używane, wyłącz przycisk
+            // Wylaczanie przycisku
             if (upgrade.isUsed()) {
                 upgradeButton.setEnabled(false);
                 upgradeButton.setText("Purchased");
@@ -59,7 +59,6 @@ public class UpgradeView extends JFrame {
             upgradesPanel.add(upgradeLabel);
             upgradesPanel.add(upgradeButton);
 
-            // Przechowywanie referencji przycisku
             upgradeButtons.put(upgrade, upgradeButton);
         }
 

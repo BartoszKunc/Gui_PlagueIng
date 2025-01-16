@@ -1,8 +1,10 @@
 package AntiPlagueInc.Model.Cure;
 
 public class Cure {
-    private double progress; // Aktualny postęp szczepionki (w %)
-    private double researchSpeed; // Tempo badań (w % na turę)
+    // Aktualny postęp szczepionki (w %)
+    private double progress;
+    // Tempo badań %
+    private double researchSpeed;
     private boolean completed;
     private int healing;
 
@@ -35,32 +37,17 @@ public class Cure {
     public double getProgress() {
         return progress;
     }
-
-    public void setProgress(double progress) {
-        this.progress = progress;
-    }
-
-    public double getResearchSpeed() {
-        return researchSpeed;
-    }
-
-    public void setResearchSpeed(double researchSpeed) {
-        this.researchSpeed = researchSpeed;
+    public void addProgressSpeed(double amount){
+        this.researchSpeed += amount;
     }
 
     public boolean isCompleted() {
         return completed;
     }
 
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
-    }
 
     public int getHealing() {
         return healing;
     }
 
-    public void setHealing(int healing) {
-        this.healing = healing;
-    }
 }

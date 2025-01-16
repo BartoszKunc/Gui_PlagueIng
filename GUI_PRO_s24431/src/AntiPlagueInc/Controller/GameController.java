@@ -11,8 +11,6 @@ import AntiPlagueInc.Model.VirusPackage.VirusThread;
 import AntiPlagueInc.View.GameView;
 import AntiPlagueInc.View.UpgradeView;
 
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class GameController {
@@ -37,7 +35,6 @@ public class GameController {
     private Thread endGameThread;
 
 
-
     public GameController(GameView gameView, DifficultyEnum difficulty) {
         //Przypisanie
         this.gameView = gameView;
@@ -49,7 +46,6 @@ public class GameController {
         this.virus = VirusSettings.createVirus(difficulty);
         this.transport = new TransportModel();
 
-
         // ActionListenery
         this.gameView.addActionListenerToUpgrade(e->enableUpgrades());
         this.gameView.addShortCutListener();
@@ -59,7 +55,6 @@ public class GameController {
         this.tm = new TimeCureManager(this, cure);
         this.tct = new Thread(tm);
         tct.start();
-
 
         //wątek odświeżający view gry
         this.mut = new MapUpdateThread(gameView);
@@ -88,33 +83,38 @@ public class GameController {
      * Wygrana gdy są ludzie i nie ma zainfekowanych
      * zwraca status gry, czy trwa czy się skończyła
      */
-    public boolean chcekEndGame(){
+    public boolean chcekEndGame() {
         int allPopulation = 0;
         int allInfected = 0;
+        int totalDead = 0;
+        int totalRecovered = 0;
 
-        for(CountryModel model: CountryModel.getExtensionCountryies()){
+        for (CountryModel model : CountryModel.getExtensionCountryies()) {
             allPopulation += model.getPopulation();
             allInfected += model.getInfected();
+            totalDead += model.getDead();
+            totalRecovered += model.getPopulation();
         }
 
-        if(allPopulation == 0 && allInfected == 0){
+        if (allPopulation == 0 && allInfected == 0) {
             int score = 1;
-            for(CountryModel model: CountryModel.getExtensionCountryies()){
-                score+=model.getPopulation();
+            for (CountryModel model : CountryModel.getExtensionCountryies()) {
+                score += model.getPopulation();
             }
-            endGame(scoreCalc(score));
+            endGame(scoreCalc(score), totalDead, totalRecovered);
             return true;
         }
-        if(allPopulation > 0 && allInfected == 0){
+        if (allPopulation > 0 && allInfected == 0) {
             int score = 1;
-            for(CountryModel model: CountryModel.getExtensionCountryies()){
-                score+=model.getPopulation();
+            for (CountryModel model : CountryModel.getExtensionCountryies()) {
+                score += model.getPopulation();
             }
-            endGame(scoreCalc(score));
+            endGame(scoreCalc(score), totalDead, totalRecovered);
             return true;
         }
         return false;
     }
+
 
 
     /**
@@ -142,11 +142,11 @@ public class GameController {
      * Funkcja przekazuje wątkom flagi do zakończenia działania, uruchamia ekran końcowy
      *
      */
-    public void endGame(int score) {
-        EndGameController.saveScore(score);
+    public void endGame(int score, int totalDead, int totalRecovered) {
+        EndGameController.saveScore(score,totalDead,totalRecovered);
         gameView.dispose();
         killAllThreads();
-        //Usuwanie obiektów ekstensji w celu poprawnego naliczania punktow za wygrana
+        //Usuwanie obiektów ekstensji w celu poprawnego naliczania punktow za wygrana przy ponownej rozgrywce
         CountryModel.resetCountries();
         upgradeController.getView().dispose();
 
@@ -178,10 +178,6 @@ public class GameController {
 
     public static int getPoints(){
         return upgradePoints;
-    }
-
-    public DifficultyEnum getDifficulty() {
-        return difficulty;
     }
 
     public Cure getCure(){

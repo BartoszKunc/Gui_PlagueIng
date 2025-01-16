@@ -36,7 +36,6 @@ public class MainMenuView extends JFrame {
         this.add(leaderBoardButton);
         this.add(exitButton);
 
-        //wymusza ladownie przyciskow po dodaniu
         this.revalidate();
     }
 

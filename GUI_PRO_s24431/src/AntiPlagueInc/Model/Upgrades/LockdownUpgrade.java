@@ -1,8 +1,6 @@
 package  AntiPlagueInc.Model.Upgrades;
 
 import AntiPlagueInc.Controller.GameController;
-import AntiPlagueInc.Model.Cure.Cure;
-import AntiPlagueInc.Model.VirusPackage.*;
 
 public class LockdownUpgrade extends Upgrade {
     public LockdownUpgrade(String name, String desc, int price, GameController gameController) {

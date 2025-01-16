@@ -58,13 +58,13 @@ public abstract class Upgrade {
 
     public static void initUpgrades(GameController gameController) {
         if (upgrades.isEmpty()) {
+            upgrades.add(new TreatmentUpgrade("Treatment Upgrade", "Decrease infection rate", 200, gameController));
+            upgrades.add(new NewMedicineUpgrade("New Medicine Upgrade", "Decrease infection rate", 200, gameController));
+            upgrades.add(new LockdownUpgrade("LockDown Upgrade", "Decrease infection rate", 200, gameController));
+            upgrades.add(new MaskDeliveryUpgrade("Mask Delivery Upgrade", "Decrease infection rate", 300, gameController));
             upgrades.add(new MortalityDecreaseUpgrade("Mortality Decrese Upgrade", "Decrease mortality rate", 400, gameController));
-            upgrades.add(new TreatmentUpgrade("Treatment Upgrade", "Decrease infection rate", 500, gameController));
-            upgrades.add(new BasicCureUpgrade("Basic Cure Upgrade", "Advance progress", 500, gameController));
-            upgrades.add(new NewMedicineUpgrade("New Medicine Upgrade", "Decrease infection rate", 500, gameController));
-            upgrades.add(new LockdownUpgrade("LockDown Upgrade", "Decrease infection rate", 500, gameController));
-            upgrades.add(new MaskDeliveryUpgrade("Mask Delivery Upgrade", "Decrease infection rate", 750, gameController));
-            upgrades.add(new GreatInfectionReducementUpgrade("Great Infection Reducement Upgrade", "Decrease infection rate", 1000, gameController));
+            upgrades.add(new BasicCureUpgrade("Basic Cure Upgrade", "Faster progress", 500, gameController));
+            upgrades.add(new GreatInfectionReducementUpgrade("Great Infection Reducement Upgrade", "Decrease infection rate", 500, gameController));
             upgrades.add(new MediumCureUpgrade("Medium Cure Upgrade", "Advance progress", 1000, gameController));
             upgrades.add(new StrongCureUpgrade("Strong Cure Upgrade", "Advance progress", 1250, gameController));
         }

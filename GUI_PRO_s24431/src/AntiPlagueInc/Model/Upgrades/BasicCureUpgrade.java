@@ -1,8 +1,6 @@
 package  AntiPlagueInc.Model.Upgrades;
 
 import AntiPlagueInc.Controller.GameController;
-import AntiPlagueInc.Model.Cure.Cure;
-import AntiPlagueInc.Model.VirusPackage.*;
 
 public class BasicCureUpgrade extends Upgrade {
     public BasicCureUpgrade(String name, String desc, int price, GameController gameController) {
@@ -11,7 +9,7 @@ public class BasicCureUpgrade extends Upgrade {
 
     @Override
     public void upgrade() {
-        cure.addProgress(5);
+        cure.addProgressSpeed(0.15);
         setUsed(true);
         System.out.println("Basic Cure upgrade");
     }

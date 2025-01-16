@@ -17,19 +17,18 @@ public class TransportConnection {
         this.threshold = 0.2 + (0.4 - 0.2) * Math.random();
     }
 
-
     /**
      * Funkcja blokująca i odblokująca transport
      */
     public void evaluateTransportStatus() {
         double infectionRateSource = (double) source.getInfected() / source.getPopulation();
 
-        if (infectionRateSource >= threshold) {
+        if (infectionRateSource >= threshold || source.getPopulation() == 0) {
             setOpen(false);
-            System.out.println("Connection: "+source.getName() +"("+threshold+") "+destination.getName()+" is now closed");
-        }else if(infectionRateSource < threshold && source.getPopulation() > 0){
+            System.out.println("Connection closed: " + source.getName() + " -> " + destination.getName() + " (Type: " + type + ")");
+        } else if (infectionRateSource < threshold && source.getPopulation() > 0) {
             setOpen(true);
-            System.out.println("Connection: "+source.getName() +"("+threshold+") "+destination.getName()+" is now closed");
+            System.out.println("Connection open: " + source.getName() + " -> " + destination.getName() + " (Type: " + type + ")");
         }
     }
 
@@ -37,24 +36,12 @@ public class TransportConnection {
         return source;
     }
 
-    public void setSource(CountryModel source) {
-        this.source = source;
-    }
-
     public CountryModel getDestination() {
         return destination;
     }
 
-    public void setDestination(CountryModel destination) {
-        this.destination = destination;
-    }
-
     public TransportType getType() {
         return type;
-    }
-
-    public void setType(TransportType type) {
-        this.type = type;
     }
 
     public boolean isOpen() {
@@ -63,9 +50,5 @@ public class TransportConnection {
 
     public void setOpen(boolean open) {
         this.open = open;
-    }
-
-    public double getThreshold() {
-        return threshold;
     }
 }

@@ -16,9 +16,9 @@ public class TransportModel {
         initTransportConnections();
     }
 
-    // Inicjalizacja przykładowych połączeń
+    // Inicjalizacja połączeń
     public void initTransportConnections() {
-        //pobranie Listy Panstw i ustawienie je w klucz Nazwa, Obiekt
+        //pobranie listy panstw i ustawienie je w klucz Nazwa, Obiekt
         Map<String, CountryModel> countryMap = new HashMap<>();
         for (CountryModel country : CountryModel.getExtensionCountryies()) {
             countryMap.put(country.getName(), country);
@@ -57,6 +57,8 @@ public class TransportModel {
         //Meksyk x USA
         //Airplane
         connections.add(new TransportConnection(countryMap.get("USA"),countryMap.get("Meksyk"),TransportType.AIRPLANE, true));
+        //Meksyk x Polska
+        connections.add(new TransportConnection(countryMap.get("Meksyk"),countryMap.get("Polska"),TransportType.SHIP,true));
         //USA x Canada
         //car
         connections.add(new TransportConnection(countryMap.get("USA"),countryMap.get("Canada"),TransportType.CAR, true));

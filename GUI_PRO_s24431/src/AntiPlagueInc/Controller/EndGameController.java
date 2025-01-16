@@ -13,9 +13,10 @@ public class EndGameController {
      * Funkcja służąca do pobrania nick'u gracza oraz zapisania wyniku do pliku
      *
      */
-    public static void saveScore(int score){
+    public static void saveScore(int score, int totalDead, int totalRecoverd){
         boolean isDone = false;
         String name = "";
+
         while(!isDone){
             name = JOptionPane.showInputDialog(null, "Enter your name","Game Ended",JOptionPane.QUESTION_MESSAGE);
             if(name == null || name.trim().isEmpty()){
@@ -26,7 +27,7 @@ public class EndGameController {
             }
         }
 
-        JOptionPane.showMessageDialog(null, "Gameover your score is: "+score, "Game Ended", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Gameover your score is: "+score+"\nTotal killed: "+totalDead+"\nTotal survivors: "+totalRecoverd, "Game Ended", JOptionPane.INFORMATION_MESSAGE);
 
         LeaderBoardModel lbm = new LeaderBoardModel(name,score);
         LeaderBoardModel.saveToFile();

@@ -1,8 +1,7 @@
 package AntiPlagueInc.View;
 
-import AntiPlagueInc.Controller.GameController;
 import AntiPlagueInc.Controller.MainMenuController;
-import AntiPlagueInc.Controller.UpgradeController;
+import AntiPlagueInc.Model.CountryModel;
 import AntiPlagueInc.Model.MapPanel;
 
 import javax.swing.*;
@@ -12,7 +11,7 @@ import java.awt.event.ActionListener;
 
 public class GameView extends JFrame {
 
-    // Komponenty GUI
+    // Komponenty
     private JPanel topBarPanel;
     private JLabel timer;
     private static JLabel score;
@@ -26,16 +25,11 @@ public class GameView extends JFrame {
     //do watków
     private static boolean running;
 
-
-
     public GameView() {
         init();
         initComponents();
     }
 
-    /**
-     * Metoda inicjalizująca okno (JFrame).
-     */
     private void init() {
         this.setTitle("KoronaVirus - Game");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -47,10 +41,10 @@ public class GameView extends JFrame {
     }
 
     /**
-     * Metoda tworząca i rozmieszczająca komponenty (paski, mapę, przyciski).
+     * Metoda tworząca mapę, przyciski
      */
     private void initComponents() {
-        // ============ Górny panel (timer + score) ============
+        // Gorny panel
         topBarPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         topBarPanel.setBackground(Color.GRAY);
 
@@ -59,29 +53,26 @@ public class GameView extends JFrame {
 
         topBarPanel.add(timer);
         topBarPanel.add(score);
-        add(topBarPanel, BorderLayout.NORTH);
+        this.add(topBarPanel, BorderLayout.NORTH);
 
         // Panel środkowy, MapPanel
-        // W MapPanel jest rysowana mapa + nazwy państw, zarażenia
         mapPanel = new MapPanel();
-        add(mapPanel, BorderLayout.CENTER);
+        this.add(mapPanel, BorderLayout.CENTER);
 
         // Panel dolny przyciski
-        // Używamy BorderLayout, żeby umieścić przyciski po bokach
         bottomPanel = new JPanel(new BorderLayout());
         upgradeButton = new JButton("Upgrade");
-        progressButton = new JButton("Postęp");
+        progressButton = new JButton("Progress: 0%");
 
         bottomPanel.add(upgradeButton, BorderLayout.WEST);
         bottomPanel.add(progressButton, BorderLayout.EAST);
 
-        add(bottomPanel, BorderLayout.SOUTH);
-
+        this.add(bottomPanel, BorderLayout.SOUTH);
+        progressButton.addActionListener(e -> showWorldProgress());
     }
 
     /**
-     * Metoda dodaje obsługę skrótu klawiszowego Ctrl+Shift+Q,
-     * który cofa do MainMenuView (poprzez MainMenuController).
+     * Metoda dodaje obsługę skrótu klawiszowego Ctrl+Shift+Q
      */
     public void addShortCutListener(){
         getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
@@ -97,34 +88,44 @@ public class GameView extends JFrame {
         });
     }
 
-    public void openUpgrades(GameController gameController){
-        new UpgradeController(new UpgradeView(), gameController);
+    private void showWorldProgress() {
+        int totalAlive = 0;
+        int totalInfected = 0;
+        int totalDead = 0;
+
+        for (CountryModel country : mapPanel.getCountries()) {
+            totalAlive += country.getPopulation();
+            totalInfected += country.getInfected();
+            totalDead += country.getDead();
+        }
+
+
+        String message = String.format(
+                "World Progress:\n" +
+                        "Total Alive: %d\n" +
+                        "Total Infected: %d\n" +
+                        "Total Dead: %d",
+                totalAlive, totalInfected, totalDead
+        );
+
+
+        JOptionPane.showMessageDialog(
+                this,
+                message,
+                "World Progress",
+                JOptionPane.INFORMATION_MESSAGE
+        );
     }
+
 
     public void addActionListenerToUpgrade(ActionListener actionListener){
         this.upgradeButton.addActionListener(actionListener);
     }
 
-    public void updateCureProgress(double progress){
-       SwingUtilities.invokeLater(()->{progressButton.setText("Progress: " + progress+"%");});
-    }
-
-    public static void updateUpgradePoints(int points){
-        SwingUtilities.invokeLater(()->{score.setText("Points: " + points);});
-    }
-
-    // ====== Gettery / settery / metody pomocnicze (opcjonalnie) ======
-
-    public JLabel getTimerLabel() {
-        return timer;
-    }
+    //  gettery
 
     public JLabel getScoreLabel() {
         return score;
-    }
-
-    public JButton getUpgradeButton() {
-        return upgradeButton;
     }
 
     public JButton getProgressButton() {
@@ -139,11 +140,11 @@ public class GameView extends JFrame {
         return mapPanel;
     }
 
-    public static JLabel getScore() {
-        return score;
-    }
-
     public static boolean isRunning() {
         return running;
+    }
+
+    public MapPanel getMap() {
+        return mapPanel;
     }
 }

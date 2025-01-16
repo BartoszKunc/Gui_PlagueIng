@@ -5,9 +5,9 @@ import AntiPlagueInc.Model.CountryModel;
 import AntiPlagueInc.Model.Cure.Cure;
 import AntiPlagueInc.Model.Transport.TransportConnection;
 import AntiPlagueInc.Model.Transport.TransportModel;
-import AntiPlagueInc.Model.Transport.TransportType;
 import AntiPlagueInc.View.GameView;
 
+import java.awt.*;
 import java.util.List;
 
 public class VirusThread implements Runnable {
@@ -16,6 +16,7 @@ public class VirusThread implements Runnable {
     private TransportModel transportModel;
     private Cure cure;
     private boolean running;
+
 
     public VirusThread(Virus virus, CountryModel countryModel, TransportModel transportModel, Cure cure) {
         this.countryModel = countryModel;
@@ -30,14 +31,17 @@ public class VirusThread implements Runnable {
         while (running) {
             try {
                 synchronized (countryModel) {
-
                     if (cure.isCompleted()) {
+
                         //gdy szczepionka gotowa lecz nadal nie dziala
                         heal(cure.getHealing());
+
                     } else {
+
                         // zarazanie wewnątrz kraju
                         infectCountry();
-                        //zarazanie miedzy krajami
+
+                        //zarazanie miedzy krajami + symulacja lotu
                         List<TransportConnection> connections = transportModel.getAllConnections();
                         for (TransportConnection connection : connections) {
                             if (connection.isOpen() && roll())
@@ -64,7 +68,6 @@ public class VirusThread implements Runnable {
                 e.printStackTrace();
             }
         }
-        System.out.println(this.getClass().getName() + " stopped");
     }
 
     public void randomHeal(){
@@ -81,7 +84,6 @@ public class VirusThread implements Runnable {
                 if(randomHealAmount>cm.getInfected())
                     randomHealAmount = cm.getInfected();
 
-                System.out.println(cm.getName()+" random healed "+randomHealAmount);
                 cm.heal(randomHealAmount);
                 GameController.addPoints(randomHealAmount);
             }
@@ -92,16 +94,14 @@ public class VirusThread implements Runnable {
     public void infectCountry() {
         for(CountryModel cm: CountryModel.getExtensionCountryies()){
 
-                if (cm.getInfected() > 0  && roll(0.4)) {
-                    int newInfection = virus.calculateNewInfections(cm.getPopulation(), cm.getInfected());
-                    if (newInfection > cm.getPopulation() || cm.getInfected() + newInfection > cm.getPopulation()) {
-                        cm.setInfected(cm.getPopulation());
-                    } else {
-                        cm.infect(newInfection);
-                    }
-
+            if (cm.getInfected() > 0  && roll(0.4)) {
+                int newInfection = virus.calculateNewInfections( cm.getInfected());
+                if (newInfection > cm.getPopulation() || cm.getInfected() + newInfection > cm.getPopulation()) {
+                    cm.setInfected(cm.getPopulation());
+                } else {
+                    cm.infect(newInfection);
                 }
-
+            }
         }
     }
 
@@ -111,7 +111,8 @@ public class VirusThread implements Runnable {
             if(cm.getPopulation()>0 && cm.getInfected() > 0 && roll(0.5)) {
                 double percentOfInfectedInCountry = (double) cm.getInfected() / cm.getPopulation() * 100;
                 if (percentOfInfectedInCountry > 15) {
-                    int calculateDeaths = virus.calculateNewDeaths(cm.getInfected())+10;
+                    //+100 do przyśpieszenia zabiajnia na końcu
+                    int calculateDeaths = virus.calculateNewDeaths(cm.getInfected())+100;
                     cm.die(calculateDeaths);
                 }
             }
@@ -119,16 +120,27 @@ public class VirusThread implements Runnable {
     }
 
 
-    public void infectConnectedCountry(TransportConnection transportConnection){
+    public void infectConnectedCountry(TransportConnection transportConnection) {
         CountryModel source = transportConnection.getSource();
         CountryModel destination = transportConnection.getDestination();
 
-        if(source.getInfected()>0 && !cure.isCompleted() && transportConnection.isOpen()){
-            int transportInfections = virus.calculateInfections(source, transportConnection.getType());
-            destination.infect(transportInfections);
+        if (source.getInfected() > 0 && !cure.isCompleted() && transportConnection.isOpen() && roll(0.85)) {
+            // Pobieranie pozycji przycisków do przekazania punktow startowych
+            Point sourcePosition = GameView.getMapPanel().getButtonPosition(source);
+            Point destinationPosition = GameView.getMapPanel().getButtonPosition(destination);
 
+            if (sourcePosition != null && destinationPosition != null) {
+                int xStart = sourcePosition.x;
+                int yStart = sourcePosition.y;
+                int xEnd = destinationPosition.x;
+                int yEnd = destinationPosition.y;
+
+                GameView.getMapPanel().addTransportThread(xStart, yStart, xEnd, yEnd, transportConnection.getType());
+
+                int transportInfections = virus.calculateInfections(source, transportConnection.getType());
+                destination.infect(transportInfections);
+            }
         }
-
     }
 
     public void heal(int healing){
@@ -136,12 +148,9 @@ public class VirusThread implements Runnable {
             if(cm.getPopulation()>0 && cure.isCompleted()){
                 int heals = (int)(cm.getInfected()/healing)+10;
                 cm.heal(heals);
-
             }
         }
     }
-
-
 
     public boolean roll(){
         double getsInfected = Math.random();

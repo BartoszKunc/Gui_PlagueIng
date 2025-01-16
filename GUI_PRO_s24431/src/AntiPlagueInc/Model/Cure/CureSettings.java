@@ -7,11 +7,11 @@ public class CureSettings {
         Cure cure = null;
 
         if(difficulty == DifficultyEnum.EASY){
-            cure = new Cure(0.45);
+            cure = new Cure(0.15);
         }else if(difficulty == DifficultyEnum.NORMAL){
-            cure = new Cure(0.35);
+            cure = new Cure(0.13);
         }else{
-            cure = new Cure(0.2);
+            cure = new Cure(0.11);
         }
         return cure;
     }

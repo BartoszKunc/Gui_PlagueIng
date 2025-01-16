@@ -12,7 +12,6 @@ import java.util.ArrayList;
 public class LeaderboardView extends JFrame {
     private JList leaderboardList;
     private JButton backButton;
-    private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
     public LeaderboardView() {
         init();
